@@ -166,3 +166,4 @@ mhForm.addEventListener("submit", function(e){
     });
 
 });
+document.getElementById("copyrightYear").textContent=new Date().getFullYear();
