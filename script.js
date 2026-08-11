@@ -1,253 +1,122 @@
-const mhMenuBtn=document.querySelector(".mh-menu-btn");
-const mhMobileMenu=document.querySelector(".mh-mobile-menu");
-const mhCloseBtn=document.querySelector(".mh-mobile-top i");
-const mhDrop=document.querySelector(".mh-mobile-dropdown span");
+const menuBtn = document.querySelector(".menu-btn");
+const menuIcon = menuBtn.querySelector("i");
+const nav = document.querySelector(".nav-links");
+const dropdown = document.querySelector(".dropdown");
+const navbar = document.querySelector(".navbar");
+const overlay=document.querySelector(".overlay");
 
-mhDrop.onclick=()=>{
-    document.querySelector(".mh-mobile-dropdown").classList.toggle("active");
+if(nav.classList.contains("active")){
+    overlay.classList.add("show");
+}else{
+    overlay.classList.remove("show");
 }
 
-mhMenuBtn.onclick=()=>{
-    mhMobileMenu.classList.add("active");
+overlay.addEventListener("click",()=>{
+   nav.classList.remove("active");
+   dropdown.classList.remove("open");
+   overlay.classList.remove("show");
+   menuIcon.classList.remove("fa-xmark");
+   menuIcon.classList.add("fa-bars");
+});
+
+menuBtn.addEventListener("click",()=>{
+    nav.classList.toggle("active");
+
+    if(nav.classList.contains("active")){
+    menuIcon.classList.remove("fa-bars");
+    menuIcon.classList.add("fa-xmark");
+    menuBtn.style.color="#06254f";
+ }else{
+    menuIcon.classList.remove("fa-xmark");
+    menuIcon.classList.add("fa-bars");
+    menuBtn.style.color="#ffffff";
 }
-
-mhCloseBtn.onclick=()=>{
-    mhMobileMenu.classList.remove("active");
-}
-//Changing Text
-const words = [
-    "TODAY.",
-    "TOMORROW.",
-    "DIGITALLY.",
-    "TOGETHER."
-];
-
-let i = 0;
-
-const changingText = document.querySelector(".mh-changing-text");
-
-setInterval(() => {
-    i = (i + 1) % words.length;
-    changingText.textContent = words[i];
-}, 1500);
-
-//Services Page Card Slideshow
-const mhProjects = [
-
-  {
-    image:"https://api.iconify.design/fluent-emoji-flat/technologist.svg",
-    title:"‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎ IT CONSULTING",
-    desc:"Transform your business with expert IT consulting, technology strategy, digital transformation, cloud solutions, cybersecurity guidance, and scalable IT infrastructure planning.",
-    btn1:{label:"Learn More",url:"#"}
-  },
-
-  {
-    image:"https://api.iconify.design/fluent-emoji-flat/laptop.svg",
-    title:"‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎‎ Web Development",
-    desc:"We design and develop fast, secure, and responsive websites tailored to businesses, startups, and personal brands using modern web technologies.",
-    btn1:{label:"Learn More",url:"#"}
-  },
-
-  {
-    image:"https://api.iconify.design/fluent-emoji-flat/mobile-phone.svg",
-    title:"‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎‎ ‎ ‎‎ Mobile App Deveopment",
-    desc:"Build powerful Android and cross-platform mobile applications with intuitive user experiences, scalable architecture, and high performance.",
-    btn1:{label:"Learn More",url:"#"}
-  },
-
-  {
-    image:"https://api.iconify.design/fluent-emoji-flat/cloud.svg",
-    title:"‎ ‎ ‎ ‎ ‎ ‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎ ‎ ‎‎ ‎‎ ‎‎ Cloud Solutions",
-    desc:"Deploy, manage, and optimize cloud infrastructure for businesses with secure, scalable, and cost-effective cloud computing services.",
-    btn1:{label:"Learn More",url:"#"}
-  },
-  {
-    image:"https://api.iconify.design/fluent-emoji-flat/artist-palette.svg",
-    title:"‎ ‎ ‎ ‎ ‎ ‎ ‎‎‎ ‎‎ ‎‎  ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎‎ ‎‎ ‎‎ ‎‎‎‎ ‎‎ ‎‎  ‎‎ ‎ ‎ ‎ UI/UX DESIGN",
-    desc:"Create visually appealing and user-friendly digital experiences through modern interface design, user research, and interactive prototyping.",
-    btn1:{label:"Learn More",url:"#"}
-  },
-{
-    image:"https://api.iconify.design/fluent-emoji-flat/graduation-cap.svg",
-    title:"‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎‎ ‎‎  ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ Internship",
-    desc:"Industry-oriented internship programs and practical training designed to equip students with real-world skills in software development and emerging technologies.",
-    btn1:{label:"Learn More",url:"#"}
-  }
-];
-
-const mhTrack = document.getElementById("mhProjectTrack");
-const mhDots = document.getElementById("mhProjectDots");
-const mhPrevBtn = document.getElementById("mhPrevBtn");
-const mhNextBtn = document.getElementById("mhNextBtn");
-
-let mhCurrent = 0;
-
-function mhRenderProjects(){
-
-  mhTrack.innerHTML = "";
-  mhDots.innerHTML = "";
-
-  mhProjects.forEach((project,index)=>{
-
-    const card = document.createElement("div");
-
-    card.className =
-      "mh-project-card" +
-      (index === mhCurrent ? " mh-project-active" : "");
-
-    card.innerHTML = `
-
-<div class="mh-project-image">
-  <img src="${project.image}" alt="${project.title}" class="mh-project-image-tag">
-</div>
-
-      <div class="mh-project-body">
-
-        <div class="mh-project-card-title">
-          ${project.title}
-        </div>
-
-        <div class="mh-project-description">
-          ${project.desc}
-        </div>
-
-        <div class="mh-project-actions">
-
-  <a href="${project.btn1.url}"
-class="mh-project-btn mh-project-btn-primary mh-project-full-btn">
-
-${project.btn1.label}
-<i class="fa-solid fa-arrow-right"></i>
-
-</a>
-
-</div>
-    `;
-
-    card.addEventListener("click",()=>{
-      mhCurrent = index;
-      mhUpdateCarousel();
-    });
-
-    mhTrack.appendChild(card);
-
-    /* DOTS */
-
-    const dot = document.createElement("div");
-
-    dot.className =
-      "mh-project-dot" +
-      (index === mhCurrent ? " mh-project-active" : "");
-
-    dot.addEventListener("click",()=>{
-      mhCurrent = index;
-      mhUpdateCarousel();
-    });
-
-    mhDots.appendChild(dot);
-
-  });
-
-}
-
-function mhUpdateCarousel(){
-
-  mhRenderProjects();
-
-  const firstCard = mhTrack.children[0];
-
-  if(!firstCard) return;
-
-  const cardWidth = firstCard.offsetWidth + 20;
-
-  const containerWidth =
-    mhTrack.parentElement.offsetWidth;
-
-  let offset =
-    mhCurrent * cardWidth -
-    (containerWidth / 2 - cardWidth / 2);
-
-  if(window.innerWidth <= 768){
-    offset = mhCurrent * (firstCard.offsetWidth + 12);
-  }
-const extraPadding = 40;
-
-const trackMax =
-  mhTrack.scrollWidth -
-  containerWidth +
-  extraPadding;
-
-offset = Math.max(
-  0,
-  Math.min(offset, trackMax)
-);
-
-  mhTrack.style.transform =
-    `translateX(-${offset}px)`;
-
-  mhPrevBtn.disabled = mhCurrent === 0;
-
-  mhNextBtn.disabled =
-    mhCurrent === mhProjects.length - 1;
-
-}
-
-mhPrevBtn.addEventListener("click",()=>{
-
-  if(mhCurrent > 0){
-    mhCurrent--;
-    mhUpdateCarousel();
-  }
 
 });
 
-mhNextBtn.addEventListener("click",()=>{
+dropdown.querySelector("a").addEventListener("click",function(e){
 
-  if(mhCurrent < mhProjects.length - 1){
-    mhCurrent++;
-    mhUpdateCarousel();
-  }
-
-});
-
-let mhTouchStartX = 0;
-
-mhTrack.addEventListener("touchstart",(e)=>{
-  mhTouchStartX = e.touches[0].clientX;
-});
-
-mhTrack.addEventListener("touchend",(e)=>{
-
-  const diff =
-    mhTouchStartX -
-    e.changedTouches[0].clientX;
-
-  if(Math.abs(diff) > 40){
-
-    if(diff > 0 &&
-      mhCurrent < mhProjects.length - 1){
-
-      mhCurrent++;
-      mhUpdateCarousel();
-
+    if(window.innerWidth<=992){
+        e.preventDefault();
+        dropdown.classList.toggle("open");
     }
 
-    else if(diff < 0 &&
-      mhCurrent > 0){
+});
 
-      mhCurrent--;
-      mhUpdateCarousel();
+document.querySelectorAll(".nav-links a").forEach(link=>{
 
-    }
-
-  }
+    link.addEventListener("click",()=>{
+        if(link.parentElement.classList.contains("dropdown")) return;
+        nav.classList.remove("active");
+        dropdown.classList.remove("open");
+        menuIcon.classList.remove("fa-xmark");
+        menuIcon.classList.add("fa-bars");
+    });
 
 });
 
-window.addEventListener("resize",mhUpdateCarousel);
+window.addEventListener("scroll",()=>{
 
-mhRenderProjects();
-mhUpdateCarousel();
+    if(window.scrollY>30){
+        navbar.style.background="#041a3d";
+        navbar.style.boxShadow="0 10px 30px rgba(0,0,0,.25)";
+    }else{
+        navbar.style.background="#06254f";
+        navbar.style.boxShadow="none";
+    }
+
+});
+
+window.addEventListener("resize",()=>{
+
+    if(window.innerWidth>992){
+        nav.classList.remove("active");
+        dropdown.classList.remove("open");
+        menuIcon.classList.remove("fa-xmark");
+        menuIcon.classList.add("fa-bars");
+    }
+
+});
+
+const serviceData={
+    software:{
+        title:"Software Development",
+        text:"Lorem Ipsum  is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets. It has survived not only many decades, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised thanks to these sheets and more recently with desktop publishing software like Aldus PageMaker and Microsoft Word including versions of Lorem Ipsum."
+    },
+    mobile:{
+        title:"Mobile Application Development",
+        text:"Lorem Ipsum  is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets. It has survived not only many decades, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised thanks to these sheets and more recently with desktop publishing software like Aldus PageMaker and Microsoft Word including versions of Lorem Ipsum."    
+    },
+    web:{
+        title:"Web Development",
+        text:"Lorem Ipsum  is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets. It has survived not only many decades, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised thanks to these sheets and more recently with desktop publishing software like Aldus PageMaker and Microsoft Word including versions of Lorem Ipsum."
+    },
+    cloud:{
+        title:"Cloud & IT Solutions",
+        text:"Lorem Ipsum  is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets. It has survived not only many decades, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised thanks to these sheets and more recently with desktop publishing software like Aldus PageMaker and Microsoft Word including versions of Lorem Ipsum."
+    }
+};
+function openService(service){
+    const data=serviceData[service];
+    document.getElementById("modalNumber").textContent=data.number;
+    document.getElementById("modalTitle").textContent=data.title;
+    document.getElementById("modalText").textContent=data.text;
+    document.getElementById("serviceModal").classList.add("active");
+}
+function closeService(){
+    document.getElementById("serviceModal").classList.remove("active");
+}
+document.getElementById("serviceModal").addEventListener("click",function(e){
+    if(e.target===this){
+        closeService();
+    }
+});
+document.addEventListener("keydown",function(e){
+    if(e.key==="Escape"){
+        closeService();
+    }
+});
+
 
 //EmailJS Validation
 emailjs.init("z4GdcI52DzZ17ZnpC");
