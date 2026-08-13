@@ -166,4 +166,33 @@ mhForm.addEventListener("submit", function(e){
     });
 
 });
+
+ function openProfileModal(){
+    document.getElementById("profileModal").classList.add("active");
+    document.body.style.overflow="hidden";
+}
+function closeProfileModal(){
+    document.getElementById("profileModal").classList.remove("active");
+    document.body.style.overflow="";
+}
+function closeThankYouModal(){
+    document.getElementById("thankyouModal").classList.remove("active");
+    document.body.style.overflow="";
+}
+document.getElementById("profileForm").addEventListener("submit",function(e){
+    e.preventDefault();
+    closeProfileModal();
+    document.getElementById("thankyouModal").classList.add("active");
+});
+document.getElementById("profileModal").addEventListener("click",function(e){
+    if(e.target===this){
+        closeProfileModal();
+    }
+});
+document.getElementById("thankyouModal").addEventListener("click",function(e){
+    if(e.target===this){
+        closeThankYouModal();
+    }
+});
+
 document.getElementById("copyrightYear").textContent=new Date().getFullYear();
